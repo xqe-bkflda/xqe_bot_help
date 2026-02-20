@@ -1,0 +1,545 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XQEbot 功能菜单</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#4f46e5',
+                        accent: '#8b5cf6',
+                        dark: '#1e1b4b',
+                        light: '#f5f3ff'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-down': 'slideDown 0.3s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .glass-dark {
+                background: rgba(30, 27, 75, 0.7);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+            }
+            .gradient-text {
+                background: linear-gradient(90deg, #6366f1, #8b5cf6);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+    </style>
+</head>
+<body class="bg-cover bg-center min-h-screen text-white relative" style="background-image: url('https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/dd13bc544e1e443493b6474171245fe6~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202602201312395EC46784B44CE4559049&rrcfp=f06b921b&x-expires=1774156374&x-signature=jFxHYYYzb2xWW3HUK6j9M6KCo84%3D');">
+    <!-- 渐变叠加层 -->
+    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/80 via-purple-900/80 to-indigo-800/80 backdrop-blur-sm"></div>
+    <div class="container mx-auto px-4 py-6 sm:py-8 max-w-6xl relative z-10">
+        <!-- 顶部标题 -->
+        <header class="text-center mb-6 sm:mb-10 animate-fade-in">
+            <div class="relative inline-block">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-2">XQEbot</h1>
+                <div class="h-1 w-24 sm:w-32 bg-gradient-to-r from-indigo-400 to-purple-500 mx-auto rounded-full"></div>
+            </div>
+            <p class="text-indigo-200 mt-3 text-sm sm:text-base">上次更新: 2026-02-20 12:37:17</p>
+        </header>
+
+        <!-- 搜索框 -->
+        <div class="max-w-2xl mx-auto mb-6 sm:mb-10 animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="搜索功能..." class="w-full py-2 sm:py-3 px-4 sm:px-5 pr-10 sm:pr-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300 text-sm sm:text-base">
+                <button id="searchBtn" class="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-indigo-300 hover:text-white transition-colors">
+                    <i class="fa fa-search text-base sm:text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 功能分类标签 -->
+        <div class="flex justify-center mb-8 animate-fade-in" style="animation-delay: 0.3s;">
+            <button class="category-btn active px-6 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 transition-colors" data-category="all">
+                全部功能
+            </button>
+        </div>
+
+        <!-- 功能卡片容器 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" id="featureContainer">
+            <!-- 主功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="main" style="animation-delay: 0.4s;">
+                <h2 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center">
+                    <i class="fa fa-star text-yellow-400 mr-2"></i>
+                    主功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/全部功能</code>
+                        <span class="text-xs sm:text-sm">查询全部功能</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/bot菜单</code>
+                        <span class="text-xs sm:text-sm">打开bot菜单</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/bot状态</code>
+                        <span class="text-xs sm:text-sm">查询bot状态</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/status</code>
+                        <span class="text-xs sm:text-sm">获取bot状态（高级版，且生成时间较长）</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/密码转md5</code>
+                        <span class="text-xs sm:text-sm">密码转MD5</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/发言榜</code>
+                        <span class="text-xs sm:text-sm">查看总发言排行榜</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/今日排行榜</code>
+                        <span class="text-xs sm:text-sm">查看今日发言排行榜</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/fuck</code>
+                        <span class="text-xs sm:text-sm">命令纠错插件，尝试找出你可能想输入的正确命令</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 插件功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="plugin" style="animation-delay: 0.5s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-puzzle-piece text-blue-400 mr-2"></i>
+                    插件功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-排行榜</code>
+                        <span class="text-xs sm:text-sm">描述插件-今日排行榜的功能</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-今日老婆</code>
+                        <span class="text-xs sm:text-sm">描述插件-今日老婆的功能</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-心理委员</code>
+                        <span class="text-xs sm:text-sm">描述插件-心理委员的功能</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-点歌插件</code>
+                        <span class="text-xs sm:text-sm">描述插件-点歌插件的功能</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-来看漫画</code>
+                        <span class="text-xs sm:text-sm">描述插件-来看漫画的功能</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-临时邮箱</code>
+                        <span class="text-xs sm:text-sm">描述插件-临时邮箱的功能</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-群老婆</code>
+                        <span class="text-xs sm:text-sm">描述插件-群老婆的功能</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 小说查看指令 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="novel" style="animation-delay: 0.6s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-book text-green-400 mr-2"></i>
+                    小说功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/搜书</code>
+                        <span class="text-xs sm:text-sm">发起搜索</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/ss</code>
+                        <span class="text-xs sm:text-sm">发起搜索或查看详情</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/起点</code>
+                        <span class="text-xs sm:text-sm">起点查询</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/番茄</code>
+                        <span class="text-xs sm:text-sm">番茄查询</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/刺猬猫</code>
+                        <span class="text-xs sm:text-sm">刺猬猫查询</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/七猫</code>
+                        <span class="text-xs sm:text-sm">七猫查询</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/书架</code>
+                        <span class="text-xs sm:text-sm">查看或管理书架</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 查询功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="query" style="animation-delay: 0.7s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-search text-orange-400 mr-2"></i>
+                    查询功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/bhot</code>
+                        <span class="text-xs sm:text-sm">B站热门视频榜单</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/baiduhot</code>
+                        <span class="text-xs sm:text-sm">百度热搜</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/epic</code>
+                        <span class="text-xs sm:text-sm">epic免费游戏信息</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 娱乐功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="entertainment" style="animation-delay: 0.8s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-gamepad text-red-400 mr-2"></i>
+                    娱乐功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/哈基米</code>
+                        <span class="text-xs sm:text-sm">获取一条哈基米语音</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/点歌</code>
+                        <span class="text-xs sm:text-sm">点歌功能</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/pexel</code>
+                        <span class="text-xs sm:text-sm">随机获取Pexels精选图片</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/看看美女</code>
+                        <span class="text-xs sm:text-sm">投喂你一张三次元美女照片</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/导出群数据</code>
+                        <span class="text-xs sm:text-sm">导出当前群聊的成员信息到Excel表格</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/🦌</code>
+                        <span class="text-xs sm:text-sm">生成一个🦌日历</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 邮箱功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="email" style="animation-delay: 0.9s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-envelope text-teal-400 mr-2"></i>
+                    邮箱功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/邮箱信息</code>
+                        <span class="text-xs sm:text-sm">查看插件使用帮助</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/查看正文</code>
+                        <span class="text-xs sm:text-sm">查看指定邮件或最新邮件内容</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/邮箱列表</code>
+                        <span class="text-xs sm:text-sm">查看当前邮箱的邮件列表</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/获取邮箱</code>
+                        <span class="text-xs sm:text-sm">生成一个新的临时邮箱地址</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 二次元抽卡功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="gacha" style="animation-delay: 1.0s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-gift text-pink-400 mr-2"></i>
+                    二次元抽卡功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/ck</code>
+                        <span class="text-xs sm:text-sm">二次元抽卡</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/我的后宫</code>
+                        <span class="text-xs sm:text-sm">查看自己的后宫</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/离婚</code>
+                        <span class="text-xs sm:text-sm">与指定老婆离婚</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/最爱</code>
+                        <span class="text-xs sm:text-sm">设置最爱角色</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/查询</code>
+                        <span class="text-xs sm:text-sm">查询角色</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/许愿</code>
+                        <span class="text-xs sm:text-sm">许愿系统，略微增加爆率</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/老婆图鉴</code>
+                        <span class="text-xs sm:text-sm">看已经解锁的老婆</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 群老婆功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="gacha" style="animation-delay: 1.1s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-heart text-red-500 mr-2"></i>
+                    群老婆功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/群老婆图鉴</code>
+                        <span class="text-xs sm:text-sm">查看群里已经解锁的老婆</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/切换ntr状态</code>
+                        <span class="text-xs sm:text-sm">嗯…</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/牛老婆</code>
+                        <span class="text-xs sm:text-sm">嗯…</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/看今日老婆</code>
+                        <span class="text-xs sm:text-sm">加@可以查看别人老婆</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/强娶</code>
+                        <span class="text-xs sm:text-sm">强娶一个群友</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/今日老婆</code>
+                        <span class="text-xs sm:text-sm">抽一个群友当你的老婆</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 群友语录功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="plugin" style="animation-delay: 1.2s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-comment text-green-400 mr-2"></i>
+                    群友语录功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/语录投稿</code>
+                        <span class="text-xs sm:text-sm">bot会将群u语录保存到本地</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/投稿权限</code>
+                        <span class="text-xs sm:text-sm">设置上传权限</span>
+                    </li>
+                </ul>
+                <div class="mt-4 text-sm text-indigo-200">
+                    <p>如果你的qq未开启半屏相册发图功能，可以通过【qq左划→设置→通用→图片、视频→发图方式】进行修改</p>
+                </div>
+            </div>
+
+            <!-- 生成插件功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="plugin" style="animation-delay: 1.3s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-code text-yellow-300 mr-2"></i>
+                    生成插件功能
+                </h2>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/生成插件</code>
+                        <span class="text-xs sm:text-sm">生成插件</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/插件生成状态</code>
+                        <span class="text-xs sm:text-sm">查看插件生成状态</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 赛博监工功能 -->
+            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="plugin" style="animation-delay: 1.4s;">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-gavel text-red-400 mr-2"></i>
+                    赛博监工功能
+                </h2>
+                <div class="text-sm text-indigo-200 mb-4">
+                    <p>介绍：赛博监工，检测到某人水群，就提醒他滚去干活</p>
+                </div>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/监督@某人</code>
+                        <span class="text-xs sm:text-sm">将某人加进监督名单里</span>
+                    </li>
+                    <li class="flex items-start">
+                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/解除监督@某人</code>
+                        <span class="text-xs sm:text-sm">将某人移出监督名单里</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 无结果提示 -->
+        <div id="noResults" class="hidden text-center py-10 animate-fade-in">
+            <i class="fa fa-search text-4xl text-indigo-300 mb-4"></i>
+            <p class="text-xl text-indigo-200">没有找到匹配的功能</p>
+            <p class="text-indigo-300 mt-2">请尝试其他关键词</p>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="mt-16 text-center text-indigo-300 text-sm animate-fade-in">
+            <p>© 2026 XQEbot - 功能菜单</p>
+            <p class="mt-2">使用现代化界面设计，提供更好的用户体验</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            const featureCards = document.querySelectorAll('.feature-card');
+            const noResults = document.getElementById('noResults');
+            const featureContainer = document.getElementById('featureContainer');
+
+            // 搜索功能
+            function searchFeatures() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                let hasResults = false;
+
+                featureCards.forEach(card => {
+                    const cardText = card.textContent.toLowerCase();
+                    const isVisible = cardText.includes(searchTerm);
+                    
+                    card.style.display = isVisible ? 'block' : 'none';
+                    
+                    if (isVisible) {
+                        hasResults = true;
+                    }
+                });
+
+                // 显示或隐藏无结果提示
+                noResults.style.display = hasResults ? 'none' : 'block';
+            }
+
+            // 事件监听
+            searchBtn.addEventListener('click', searchFeatures);
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    searchFeatures();
+                }
+            });
+
+            // 复制命令功能
+            document.querySelectorAll('code').forEach(code => {
+                code.style.cursor = 'pointer';
+                code.addEventListener('click', function() {
+                    const textToCopy = this.textContent;
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        // 创建临时提示元素
+                        const tooltip = document.createElement('div');
+                        tooltip.textContent = '已复制!';
+                        tooltip.className = 'absolute -top-8 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-2 py-1 rounded text-xs';
+                        
+                        // 确保父元素是相对定位的
+                        if (this.parentElement.style.position !== 'relative') {
+                            this.parentElement.style.position = 'relative';
+                        }
+                        
+                        this.parentElement.appendChild(tooltip);
+                        
+                        // 2秒后移除提示
+                        setTimeout(() => {
+                            tooltip.remove();
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('复制失败:', err);
+                    });
+                });
+            });
+
+            // 添加滚动动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            featureCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+
+            // 初始化页面
+            featureCards.forEach(card => {
+                card.style.display = 'block';
+            });
+        });
+    </script>
+
+</body></html>
