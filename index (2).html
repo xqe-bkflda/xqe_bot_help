@@ -1,9 +1,14 @@
-<html lang="zh-CN"><head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XQEbot 功能菜单</title>
+    <title>XQEbot 功能菜单 - Markdown版本</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -17,10 +22,11 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'Monaco', 'Consolas', 'monospace']
                     },
                     animation: {
                         'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'slide-down': 'slideDown 0.3s ease-out',
+                        'slide-in': 'slideIn 0.3s ease-out',
                         'pulse-slow': 'pulse 3s infinite',
                     },
                     keyframes: {
@@ -28,8 +34,8 @@
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
                         },
-                        slideDown: {
-                            '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                        slideIn: {
+                            '0%': { transform: 'translateY(-20px)', opacity: '0' },
                             '100%': { transform: 'translateY(0)', opacity: '1' },
                         }
                     }
@@ -45,501 +51,886 @@
                 border: 1px solid rgba(255, 255, 255, 0.2);
             }
             .glass-dark {
-                background: rgba(30, 27, 75, 0.7);
+                background: rgba(30, 27, 75, 0.8);
                 backdrop-filter: blur(10px);
                 border: 1px solid rgba(255, 255, 255, 0.1);
             }
             .text-shadow {
                 text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
-            .card-hover {
-                transition: all 0.3s ease;
-            }
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
-            }
             .gradient-text {
                 background: linear-gradient(90deg, #6366f1, #8b5cf6);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
             }
+            .markdown-content h1 {
+                @apply text-3xl font-bold mb-6 gradient-text;
+            }
+            .markdown-content h2 {
+                @apply text-2xl font-bold mb-4 text-indigo-300 border-b border-indigo-600/30 pb-2;
+            }
+            .markdown-content h3 {
+                @apply text-xl font-bold mb-3 text-indigo-200;
+            }
+            .markdown-content p {
+                @apply mb-4 text-white/90 leading-relaxed;
+            }
+            .markdown-content ul {
+                @apply mb-4 pl-6 list-disc;
+            }
+            .markdown-content ol {
+                @apply mb-4 pl-6 list-decimal;
+            }
+            .markdown-content li {
+                @apply mb-2 text-white/90;
+            }
+            .markdown-content a {
+                @apply text-blue-400 hover:text-blue-300 transition-colors underline;
+            }
+            .markdown-content blockquote {
+                @apply border-l-4 border-indigo-500 pl-4 italic text-white/80 mb-4;
+            }
+            .markdown-content code {
+                @apply bg-indigo-900/50 px-2 py-1 rounded text-sm font-mono text-pink-300;
+            }
+            .markdown-content pre {
+                @apply bg-indigo-900/30 rounded-lg p-4 overflow-x-auto mb-4 border border-indigo-600/20;
+            }
+            .markdown-content pre code {
+                @apply bg-transparent px-0 py-0 text-green-300;
+            }
+            .markdown-content table {
+                @apply w-full border-collapse mb-4;
+            }
+            .markdown-content th {
+                @apply bg-indigo-800/50 px-4 py-2 text-left border border-indigo-600/30;
+            }
+            .markdown-content td {
+                @apply px-4 py-2 border border-indigo-600/30 text-white/90;
+            }
+            .markdown-content tr:nth-child(even) {
+                @apply bg-indigo-800/20;
+            }
+            .markdown-content hr {
+                @apply border-indigo-600/30 my-6;
+            }
+            .markdown-content strong {
+                @apply font-bold text-white;
+            }
+            .markdown-content em {
+                @apply italic text-white/80;
+            }
+            .toc-item {
+                @apply mb-2 transition-all duration-200;
+            }
+            .toc-item:hover {
+                @apply pl-2 text-indigo-300;
+            }
+            .toc-link {
+                @apply text-white/80 hover:text-white transition-colors;
+            }
+            .toc-link.active {
+                @apply text-indigo-300 font-medium;
+            }
+            .scrollbar-thin::-webkit-scrollbar {
+                width: 4px;
+            }
+            .scrollbar-thin::-webkit-scrollbar-track {
+                @apply bg-transparent;
+            }
+            .scrollbar-thin::-webkit-scrollbar-thumb {
+                @apply bg-indigo-500/50 rounded-full;
+            }
+            .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+                @apply bg-indigo-500/70;
+            }
         }
     </style>
 </head>
-<body class="bg-cover bg-center min-h-screen text-white relative" style="background-image: url('https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/dd13bc544e1e443493b6474171245fe6~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202602201312395EC46784B44CE4559049&rrcfp=f06b921b&x-expires=1774156374&x-signature=jFxHYYYzb2xWW3HUK6j9M6KCo84%3D');">
-    <!-- 渐变叠加层 -->
-    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/80 via-purple-900/80 to-indigo-800/80 backdrop-blur-sm"></div>
-    <div class="container mx-auto px-4 py-6 sm:py-8 max-w-6xl relative z-10">
-        <!-- 顶部标题 -->
-        <header class="text-center mb-6 sm:mb-10 animate-fade-in">
-            <div class="relative inline-block">
-                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-2">XQEbot</h1>
-                <div class="h-1 w-24 sm:w-32 bg-gradient-to-r from-indigo-400 to-purple-500 mx-auto rounded-full"></div>
+<body class="bg-cover bg-center min-h-screen text-white relative overflow-x-hidden" style="background-image: url('https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/dd13bc544e1e443493b6474171245fe6~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202602201312395EC46784B44CE4559049&rrcfp=f06b921b&x-expires=1774156374&x-signature=jFxHYYYzb2xWW3HUK6j9M6KCo84%3D');">
+        <!-- 渐变叠加层 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/90 via-purple-900/90 to-indigo-800/90 backdrop-blur-sm"></div>
+        
+        <!-- 顶部导航栏 -->
+        <header class="sticky top-0 z-50 glass-dark border-b border-white/10 shadow-lg">
+            <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between">
+                <div class="flex items-center mb-4 sm:mb-0">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center mr-3 shadow-lg animate-pulse-slow">
+                        <i class="fa fa-book text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold gradient-text">XQEbot 菜单</h1>
+                        <p class="text-xs text-indigo-300">Markdown版本 | 上次更新: 2026-02-20 17:41:20</p>
+                    </div>
+                </div>
+                
+                <!-- 搜索框 -->
+                <div class="w-full sm:w-64 lg:w-80">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="搜索功能..." 
+                               class="w-full py-2 px-4 pr-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 
+                                      focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300 text-sm">
+                        <button id="searchBtn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-indigo-300 hover:text-white transition-colors">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <p class="text-indigo-200 mt-3 text-sm sm:text-base">上次更新: 2026-02-20 12:37:17</p>
         </header>
 
-        <!-- 搜索框 -->
-        <div class="max-w-2xl mx-auto mb-6 sm:mb-10 animate-fade-in" style="animation-delay: 0.2s;">
-            <div class="relative">
-                <input type="text" id="searchInput" placeholder="搜索功能..." class="w-full py-2 sm:py-3 px-4 sm:px-5 pr-10 sm:pr-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300 text-sm sm:text-base">
-                <button id="searchBtn" class="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-indigo-300 hover:text-white transition-colors">
-                    <i class="fa fa-search text-base sm:text-lg"></i>
-                </button>
-            </div>
-        </div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- 左侧目录 -->
+                <aside class="hidden lg:block w-64 flex-shrink-0">
+                    <div class="glass rounded-xl p-4 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto scrollbar-thin">
+                        <h2 class="text-lg font-bold mb-4 text-center gradient-text">目录导航</h2>
+                        <nav id="tableOfContents">
+                            <div class="toc-item">
+                                <a href="#功能概览" class="toc-link flex items-center">
+                                    <i class="fa fa-list-ul mr-2 text-indigo-400"></i>
+                                    <span>功能概览</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#快速搜索" class="toc-link flex items-center">
+                                    <i class="fa fa-search mr-2 text-indigo-400"></i>
+                                    <span>快速搜索</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#主功能" class="toc-link flex items-center">
+                                    <i class="fa fa-star mr-2 text-yellow-400"></i>
+                                    <span>主功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#插件功能" class="toc-link flex items-center">
+                                    <i class="fa fa-puzzle-piece mr-2 text-blue-400"></i>
+                                    <span>插件功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#小说查看指令" class="toc-link flex items-center">
+                                    <i class="fa fa-book mr-2 text-green-400"></i>
+                                    <span>小说功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#查询功能" class="toc-link flex items-center">
+                                    <i class="fa fa-search mr-2 text-orange-400"></i>
+                                    <span>查询功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#娱乐功能" class="toc-link flex items-center">
+                                    <i class="fa fa-gamepad mr-2 text-red-400"></i>
+                                    <span>娱乐功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#邮箱功能" class="toc-link flex items-center">
+                                    <i class="fa fa-envelope mr-2 text-teal-400"></i>
+                                    <span>邮箱功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#二次元抽卡功能" class="toc-link flex items-center">
+                                    <i class="fa fa-gift mr-2 text-pink-400"></i>
+                                    <span>抽卡功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#群老婆功能" class="toc-link flex items-center">
+                                    <i class="fa fa-heart mr-2 text-red-500"></i>
+                                    <span>群老婆功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#群友语录功能" class="toc-link flex items-center">
+                                    <i class="fa fa-comment mr-2 text-green-400"></i>
+                                    <span>群友语录</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#生成插件功能" class="toc-link flex items-center">
+                                    <i class="fa fa-code mr-2 text-yellow-300"></i>
+                                    <span>生成插件</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#赛博监工功能" class="toc-link flex items-center">
+                                    <i class="fa fa-gavel mr-2 text-red-400"></i>
+                                    <span>赛博监工</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#群管功能" class="toc-link flex items-center">
+                                    <i class="fa fa-shield mr-2 text-blue-400"></i>
+                                    <span>群管功能</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#使用技巧" class="toc-link flex items-center">
+                                    <i class="fa fa-lightbulb-o mr-2 text-yellow-400"></i>
+                                    <span>使用技巧</span>
+                                </a>
+                            </div>
+                            <div class="toc-item">
+                                <a href="#更新日志" class="toc-link flex items-center">
+                                    <i class="fa fa-history mr-2 text-indigo-400"></i>
+                                    <span>更新日志</span>
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                </aside>
 
-        <!-- 功能分类标签 -->
-        <div class="flex justify-center mb-8 animate-fade-in" style="animation-delay: 0.3s;">
-            <button class="category-btn active px-6 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 transition-colors" data-category="all">
-                全部功能
-            </button>
-        </div>
-
-        <!-- 功能卡片容器 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" id="featureContainer">
-            <!-- 主功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="main" style="animation-delay: 0.4s;">
-                <h2 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center">
-                    <i class="fa fa-star text-yellow-400 mr-2"></i>
-                    主功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/全部功能</code>
-                        <span class="text-xs sm:text-sm">查询全部功能</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/bot菜单</code>
-                        <span class="text-xs sm:text-sm">打开bot菜单</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/bot状态</code>
-                        <span class="text-xs sm:text-sm">查询bot状态</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/status</code>
-                        <span class="text-xs sm:text-sm">获取bot状态（高级版，且生成时间较长）</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/密码转md5</code>
-                        <span class="text-xs sm:text-sm">密码转MD5</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/发言榜</code>
-                        <span class="text-xs sm:text-sm">查看总发言排行榜</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/今日排行榜</code>
-                        <span class="text-xs sm:text-sm">查看今日发言排行榜</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/fuck</code>
-                        <span class="text-xs sm:text-sm">命令纠错插件，尝试找出你可能想输入的正确命令</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 插件功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="plugin" style="animation-delay: 0.5s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-puzzle-piece text-blue-400 mr-2"></i>
-                    插件功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-排行榜</code>
-                        <span class="text-xs sm:text-sm">描述插件-今日排行榜的功能</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-今日老婆</code>
-                        <span class="text-xs sm:text-sm">描述插件-今日老婆的功能</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-心理委员</code>
-                        <span class="text-xs sm:text-sm">描述插件-心理委员的功能</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-点歌插件</code>
-                        <span class="text-xs sm:text-sm">描述插件-点歌插件的功能</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-来看漫画</code>
-                        <span class="text-xs sm:text-sm">描述插件-来看漫画的功能</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-临时邮箱</code>
-                        <span class="text-xs sm:text-sm">描述插件-临时邮箱的功能</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/描述-群老婆</code>
-                        <span class="text-xs sm:text-sm">描述插件-群老婆的功能</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 小说查看指令 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="novel" style="animation-delay: 0.6s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-book text-green-400 mr-2"></i>
-                    小说功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/搜书</code>
-                        <span class="text-xs sm:text-sm">发起搜索</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/ss</code>
-                        <span class="text-xs sm:text-sm">发起搜索或查看详情</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/起点</code>
-                        <span class="text-xs sm:text-sm">起点查询</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/番茄</code>
-                        <span class="text-xs sm:text-sm">番茄查询</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/刺猬猫</code>
-                        <span class="text-xs sm:text-sm">刺猬猫查询</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/七猫</code>
-                        <span class="text-xs sm:text-sm">七猫查询</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/书架</code>
-                        <span class="text-xs sm:text-sm">查看或管理书架</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 查询功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="query" style="animation-delay: 0.7s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-search text-orange-400 mr-2"></i>
-                    查询功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/bhot</code>
-                        <span class="text-xs sm:text-sm">B站热门视频榜单</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/baiduhot</code>
-                        <span class="text-xs sm:text-sm">百度热搜</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/epic</code>
-                        <span class="text-xs sm:text-sm">epic免费游戏信息</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 娱乐功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="entertainment" style="animation-delay: 0.8s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-gamepad text-red-400 mr-2"></i>
-                    娱乐功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/哈基米</code>
-                        <span class="text-xs sm:text-sm">获取一条哈基米语音</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/点歌</code>
-                        <span class="text-xs sm:text-sm">点歌功能</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/pexel</code>
-                        <span class="text-xs sm:text-sm">随机获取Pexels精选图片</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/看看美女</code>
-                        <span class="text-xs sm:text-sm">投喂你一张三次元美女照片</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/导出群数据</code>
-                        <span class="text-xs sm:text-sm">导出当前群聊的成员信息到Excel表格</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/🦌</code>
-                        <span class="text-xs sm:text-sm">生成一个🦌日历</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 邮箱功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="email" style="animation-delay: 0.9s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-envelope text-teal-400 mr-2"></i>
-                    邮箱功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/邮箱信息</code>
-                        <span class="text-xs sm:text-sm">查看插件使用帮助</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/查看正文</code>
-                        <span class="text-xs sm:text-sm">查看指定邮件或最新邮件内容</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/邮箱列表</code>
-                        <span class="text-xs sm:text-sm">查看当前邮箱的邮件列表</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/获取邮箱</code>
-                        <span class="text-xs sm:text-sm">生成一个新的临时邮箱地址</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 二次元抽卡功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="gacha" style="animation-delay: 1.0s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-gift text-pink-400 mr-2"></i>
-                    二次元抽卡功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/ck</code>
-                        <span class="text-xs sm:text-sm">二次元抽卡</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/我的后宫</code>
-                        <span class="text-xs sm:text-sm">查看自己的后宫</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/离婚</code>
-                        <span class="text-xs sm:text-sm">与指定老婆离婚</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/最爱</code>
-                        <span class="text-xs sm:text-sm">设置最爱角色</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/查询</code>
-                        <span class="text-xs sm:text-sm">查询角色</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/许愿</code>
-                        <span class="text-xs sm:text-sm">许愿系统，略微增加爆率</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/老婆图鉴</code>
-                        <span class="text-xs sm:text-sm">看已经解锁的老婆</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 群老婆功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="gacha" style="animation-delay: 1.1s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-heart text-red-500 mr-2"></i>
-                    群老婆功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/群老婆图鉴</code>
-                        <span class="text-xs sm:text-sm">查看群里已经解锁的老婆</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/切换ntr状态</code>
-                        <span class="text-xs sm:text-sm">嗯…</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/牛老婆</code>
-                        <span class="text-xs sm:text-sm">嗯…</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/看今日老婆</code>
-                        <span class="text-xs sm:text-sm">加@可以查看别人老婆</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/强娶</code>
-                        <span class="text-xs sm:text-sm">强娶一个群友</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/今日老婆</code>
-                        <span class="text-xs sm:text-sm">抽一个群友当你的老婆</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 群友语录功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="plugin" style="animation-delay: 1.2s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-comment text-green-400 mr-2"></i>
-                    群友语录功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/语录投稿</code>
-                        <span class="text-xs sm:text-sm">bot会将群u语录保存到本地</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/投稿权限</code>
-                        <span class="text-xs sm:text-sm">设置上传权限</span>
-                    </li>
-                </ul>
-                <div class="mt-4 text-sm text-indigo-200">
-                    <p>如果你的qq未开启半屏相册发图功能，可以通过【qq左划→设置→通用→图片、视频→发图方式】进行修改</p>
+                <!-- 移动端目录按钮 -->
+                <div class="lg:hidden mb-6">
+                    <button id="mobileTocToggle" class="w-full py-3 px-4 rounded-lg glass flex items-center justify-between">
+                        <span class="font-medium">目录导航</span>
+                        <i class="fa fa-chevron-down text-indigo-300 transition-transform duration-300" id="tocToggleIcon"></i>
+                    </button>
+                    <div id="mobileToc" class="hidden glass rounded-b-xl p-4 mt-1">
+                        <nav>
+                            <!-- 移动端目录内容会通过JS动态生成 -->
+                        </nav>
+                    </div>
                 </div>
-            </div>
 
-            <!-- 生成插件功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="plugin" style="animation-delay: 1.3s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-code text-yellow-300 mr-2"></i>
-                    生成插件功能
-                </h2>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/生成插件</code>
-                        <span class="text-xs sm:text-sm">生成插件</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/插件生成状态</code>
-                        <span class="text-xs sm:text-sm">查看插件生成状态</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 赛博监工功能 -->
-            <div class="feature-card card-hover rounded-lg sm:rounded-xl glass p-3 sm:p-4 md:p-6 animate-fade-in" data-category="plugin" style="animation-delay: 1.4s;">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fa fa-gavel text-red-400 mr-2"></i>
-                    赛博监工功能
-                </h2>
-                <div class="text-sm text-indigo-200 mb-4">
-                    <p>介绍：赛博监工，检测到某人水群，就提醒他滚去干活</p>
-                </div>
-                <ul class="space-y-2 sm:space-y-3">
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/监督@某人</code>
-                        <span class="text-xs sm:text-sm">将某人加进监督名单里</span>
-                    </li>
-                    <li class="flex items-start">
-                        <code class="bg-indigo-900/50 px-2 py-1 rounded text-xs sm:text-sm font-mono mr-2 mt-0.5">/解除监督@某人</code>
-                        <span class="text-xs sm:text-sm">将某人移出监督名单里</span>
-                    </li>
-                </ul>
+                <!-- 右侧Markdown内容 -->
+                <main class="flex-1">
+                    <div class="glass rounded-xl p-6 md:p-8 animate-fade-in">
+                        <div id="markdownContent" class="markdown-content">
+                            <h1 id="xqebot-功能菜单">XQEbot 功能菜单</h1>
+                            
+                            <p>上次更新: 2026-02-20 17:41:20</p>
+                            
+                            <h2 id="功能概览">📋 功能概览</h2>
+                            
+                            <p>XQEbot 是一个功能丰富的QQ机器人，提供多种实用功能，包括但不限于主功能、插件功能、小说查询、娱乐功能等。本菜单提供了所有可用命令的详细说明。</p>
+                            
+                            <h2 id="快速搜索">🔍 快速搜索</h2>
+                            
+                            <p>使用 <code>Ctrl+F</code> 在本页面搜索您需要的功能。</p>
+                            
+                            <h2 id="主功能">⭐ 主功能</h2>
+                            
+                            <h3 id="基础命令">基础命令</h3>
+                            
+                            <ul>
+                                <li><code>/helps</code> - 生成帮助图, 别名：帮助、菜单、功能</li>
+                                <li><code>/全部功能</code> - 查询全部功能</li>
+                                <li><code>/bot菜单</code> - 打开bot菜单</li>
+                                <li><code>/bot状态</code> - 查询bot状态</li>
+                                <li><code>/status</code> - 获取bot状态（高级版，且生成时间较长）</li>
+                                <li><code>/密码转md5 &lt;明文密码&gt;</code> - 密码转MD5</li>
+                            </ul>
+                            
+                            <h3 id="排行榜功能">排行榜功能</h3>
+                            
+                            <ul>
+                                <li><code>/今日排行榜</code> - 查看今日发言排行榜【其他关于排行榜的功能请输入：/描述-排行榜】</li>
+                            </ul>
+                            
+                            <h3 id="其他功能">其他功能</h3>
+                            
+                            <ul>
+                                <li><code>/sofree</code> - 查看一只sofree</li>
+                                <li><code>/BOT赞我</code> - 让bot赞你</li>
+                                <li><code>/fuck</code> - 命令纠错插件，灵感来源于著名的命令行工具 thefuck。当你不小心输错了一个命令时（例如 /pixic 而不是 /pixiv），只需紧接着发送 /fuck，此插件就会尝试找出你可能想输入的正确命令，并给出建议。</li>
+                            </ul>
+                            
+                            <h2 id="插件功能">🧩 插件功能</h2>
+                            
+                            <h3 id="插件说明">插件说明</h3>
+                            
+                            <ul>
+                                <li><code>/描述-排行榜</code> - 描述插件-今日排行榜的功能</li>
+                                <li><code>/描述-今日老婆</code> - 描述插件-今日老婆的功能</li>
+                                <li><code>/描述-心理委员</code> - 描述插件-心理委员的功能</li>
+                                <li><code>/描述-点歌插件</code> - 描述插件-点歌插件的功能</li>
+                                <li><code>/描述-来看漫画</code> - 描述插件-来看漫画的功能</li>
+                                <li><code>/描述-临时邮箱</code> - 描述插件-临时邮箱的功能</li>
+                                <li><code>/描述-群老婆</code> - 描述插件-群老婆的功能</li>
+                                <li><code>/描述-二次元抽卡</code> - 描述插件-二次元抽卡的功能</li>
+                                <li><code>/描述-网文查询</code> - 查询插件-网文查询插件的功能</li>
+                                <li><code>/描述-群U语录</code> - 查询插件-群友语录插件的功能</li>
+                                <li><code>/描述-🦌插件</code> - 描述插件🦌打卡日历插件的功能</li>
+                            </ul>
+                            
+                            <h2 id="小说查看指令">📚 小说查看指令</h2>
+                            
+                            <h3 id="搜索功能">搜索功能</h3>
+                            
+                            <ul>
+                                <li><code>/搜书 &lt;书名/作者名&gt;</code> - 发起搜索</li>
+                                <li><code>/ss &lt;书名&gt;</code> - 发起搜索</li>
+                                <li><code>/ss &lt;序号&gt;</code> - 查看详情(搜索后直接发送)</li>
+                                <li><code>/ss 下一页</code> - 翻页</li>
+                            </ul>
+                            
+                            <h3 id="平台查询">平台查询</h3>
+                            
+                            <ul>
+                                <li><code>/起点 &lt;书名/作者名&gt;</code> - 起点查询</li>
+                                <li><code>/qd &lt;书名/作者名&gt;</code> - 起点查询</li>
+                                <li><code>/番茄 &lt;书名/作者名&gt;</code> - 番茄查询</li>
+                                <li><code>/fq &lt;书名/作者名&gt;</code> - 番茄查询</li>
+                                <li><code>/刺猬猫 &lt;书名/作者名&gt;</code> - 刺猬猫查询</li>
+                                <li><code>/cwm &lt;书名/作者名&gt;</code> - 刺猬猫查询</li>
+                                <li><code>/七猫 &lt;书名/作者名&gt;</code></li>
+                                <li><code>/qm &lt;书名/作者名&gt;</code></li>
+                                <li><code>/纵横 &lt;书名/作者名&gt;</code></li>
+                                <li><code>/飞卢 &lt;书名/作者名&gt;</code> - 飞卢查询</li>
+                                <li><code>/fl &lt;书名/作者名&gt;</code> - 飞卢查询</li>
+                                <li><code>/菠萝包 &lt;书名/作者名&gt;</code> - 菠萝包查询</li>
+                                <li><code>/blb &lt;书名/作者名&gt;</code> - 菠萝包查询</li>
+                            </ul>
+                            
+                            <h3 id="单平台详情">单平台详情</h3>
+                            
+                            <ul>
+                                <li><code>/qd &lt;序号&gt;</code> - 单平台详情</li>
+                                <li><code>/fq &lt;序号&gt;</code> - 单平台详情</li>
+                            </ul>
+                            
+                            <h3 id="书架管理">书架管理</h3>
+                            
+                            <ul>
+                                <li><code>/查看书架</code> - 查看书架</li>
+                                <li><code>/书架</code> - 书架</li>
+                                <li><code>/书架 &lt;序号&gt;</code> - 书架详情</li>
+                                <li><code>/书架 &lt;下一页 / 上一页&gt;</code> - 翻页</li>
+                                <li><code>/添加书架 &lt;序号&gt;</code> - 添加当前搜索结果中的书籍</li>
+                                <li><code>/加书架 &lt;序号&gt;</code> - 添加当前搜索结果中的书籍</li>
+                                <li><code>/加书架</code> - 将最近一次查看详情的书籍加入书架</li>
+                                <li><code>/移除书架 &lt;序号&gt;</code> - 移除书架中对应序号的书籍</li>
+                                <li><code>/删书 &lt;序号&gt;</code> - 移除书架中对应序号的书籍</li>
+                                <li><code>/删书</code> - 从书架中移除最近一次查看详情的书籍</li>
+                            </ul>
+                            
+                            <h2 id="查询功能">🔍 查询功能</h2>
+                            
+                            <h3 id="AI平台查询">AI平台查询</h3>
+                            
+                            <ul>
+                                <li><code>/硅基余额 &lt;API密钥&gt;</code> - 查询硅基流动平台余额</li>
+                                <li><code>/DS余额 &lt;API密钥&gt;</code> - 查询DeepSeek平台余额</li>
+                                <li><code>/GPT余额 &lt;API密钥&gt;</code> - 查询OpenAI平台余额</li>
+                            </ul>
+                            
+                            <h3 id="网络工具">网络工具</h3>
+                            
+                            <ul>
+                                <li><code>/查询IP &lt;IP/域名&gt;</code> - 查询IP地址或域名信息（含IPv6支持）</li>
+                                <li><code>/ping &lt;域名/IP&gt;</code> - 增强网络测试（ICMP + 端口连通性）</li>
+                            </ul>
+                            
+                            <h3 id="热门榜单">热门榜单</h3>
+                            
+                            <ul>
+                                <li><code>/bhot</code> - B站热门视频榜单</li>
+                                <li><code>/baiduhot</code> - 百度热搜</li>
+                            </ul>
+                            
+                            <h3 id="游戏相关">游戏相关</h3>
+                            
+                            <ul>
+                                <li><code>/epic</code> - epic免费游戏信息</li>
+                                <li><code>/喜加一</code> - epic喜加一信息</li>
+                            </ul>
+                            
+                            <h2 id="娱乐功能">🎮 娱乐功能</h2>
+                            
+                            <h3 id="生活助手">生活助手</h3>
+                            
+                            <ul>
+                                <li><code>/今天吃什么</code> - 随机选择吃什么</li>
+                                <li><code>/今天吃什么 添加 美食1 美食2 ...</code> - 添加美食</li>
+                                <li><code>/今天吃什么 删除 美食1 美食2 ...</code> - 删除美食</li>
+                            </ul>
+                            
+                            <h3 id="图片相关">图片相关</h3>
+                            
+                            <ul>
+                                <li><code>/搜番</code> - 以图搜番</li>
+                                <li><code>/moe</code> - 随机动漫图片</li>
+                                <li><code>/喜报 &lt;你的内容&gt;</code> - 生成一张喜报照片</li>
+                                <li><code>/悲报 &lt;你的内容&gt;</code> - 生成一张悲报照片</li>
+                                <li><code>/pexel</code> - 随机获取一批来自 Pexels 的精选图片</li>
+                                <li><code>/心理委员</code> - 投喂你一张三次元美女照片</li>
+                                <li><code>/neko</code> - 获取甘城なつき的角色相关图片，包含甘城原画和二创</li>
+                            </ul>
+                            
+                            <h3 id="其他娱乐">其他娱乐</h3>
+                            
+                            <ul>
+                                <li><code>/原神</code> - 检测到原神关键词自动回复原神圣经</li>
+                                <li><code>/awa</code> - 随机夺舍 QQ 群友名字（群名）</li>
+                                <li><code>/up [用户UID]</code> - B站用户信息查询</li>
+                                <li><code>/text &lt;文本&gt;</code> - 发送纯文本消息</li>
+                                <li><code>/mcs &lt;minecraft服务器地址&gt;</code> - 查询mc服务器状态</li>
+                                <li><code>/哈基米</code> - 获取一条哈基米语音</li>
+                                <li><code>/点歌</code> - 用法：/点歌xxx</li>
+                                <li><code>/pexel</code> - 随机获取一批来自 Pexels 的精选图片</li>
+                                <li><code>/心理委员</code> - 投喂你一张三次元美女照片</li>
+                                <li><code>/导出群数据</code> - 导出当前群聊的成员信息到Excel表格</li>
+                                <li><code>/导出群数据 group_id</code> - 导出当前群聊的成员信息到Excel表格</li>
+                                <li><code>/导出所有群数据</code> - 导出所有群聊的成员信息到Excel表格</li>
+                                <li><code>/打~交</code> - 嗯...字面意思</li>
+                                <li><code>/答案之书 问题</code> - bot会自动引用你的问题并回复</li>
+                                <li><code>/🦌</code> - 嗯...生成一个🦌日历 【关于🦌的更多功能，请发送/描述-🦌插件】</li>
+                            </ul>
+                            
+                            <h2 id="邮箱功能">📧 邮箱功能</h2>
+                            
+                            <h3 id="邮箱管理">邮箱管理</h3>
+                            
+                            <ul>
+                                <li><code>/邮箱信息</code> - 查看插件使用帮助</li>
+                                <li><code>/查看正文 邮件ID</code> - 查看指定邮件</li>
+                                <li><code>/邮箱列表</code> - 查看当前邮箱的邮件列表</li>
+                                <li><code>/查看正文</code> - 查看最新邮件内容</li>
+                                <li><code>/获取邮箱</code> - 生成一个新的临时邮箱地址</li>
+                            </ul>
+                            
+                            <h2 id="二次元抽卡功能">🎴 二次元抽卡功能</h2>
+                            
+                            <h3 id="基础抽卡">基础抽卡</h3>
+                            
+                            <ul>
+                                <li><code>/帮助</code> - 二次元抽卡帮助</li>
+                                <li><code>/菜单</code> - 二次元抽卡菜单</li>
+                                <li><code>/ck</code> - 二次元抽卡</li>
+                                <li><code>/抽卡</code> - 二次元抽卡</li>
+                            </ul>
+                            
+                            <h3 id="后宫管理">后宫管理</h3>
+                            
+                            <ul>
+                                <li><code>/我的后宫</code> - 查看自己的后宫（或/查看后宫 页码）</li>
+                                <li><code>/离婚 角色ID</code> - 与xx老婆离婚</li>
+                                <li><code>/最爱 角色ID</code> - 被设置为最爱的角色在清理后宫和重开时不会被离婚</li>
+                            </ul>
+                            
+                            <h3 id="角色查询">角色查询</h3>
+                            
+                            <ul>
+                                <li><code>/查询 &lt;角色ID&gt;</code> - 查询角色</li>
+                                <li><code>/搜索 &lt;角色名称&gt;</code> - 查询角色</li>
+                            </ul>
+                            
+                            <h3 id="许愿系统">许愿系统</h3>
+                            
+                            <ul>
+                                <li><code>/许愿 &lt;角色ID&gt;</code> - 许愿系统 略微增加爆率</li>
+                                <li><code>/愿望单</code> - 许愿单</li>
+                                <li><code>/删除许愿 &lt;角色ID&gt;</code> - 取消许愿</li>
+                            </ul>
+                            
+                            <h3 id="其他功能-1">其他功能</h3>
+                            
+                            <ul>
+                                <li><code>/交换 &lt;我的角色ID&gt; &lt;对方角色ID&gt;</code> - 交换角色，对方给交换请求消息贴表情即可完成交换</li>
+                                <li><code>/老婆图鉴</code> - 看已经解锁的老婆</li>
+                                <li><code>/抽取老婆</code> - 每天一次，随机抽一张二次元老婆</li>
+                            </ul>
+                            
+                            <h2 id="群老婆功能">❤️ 群老婆功能</h2>
+                            
+                            <h3 id="群老婆管理">群老婆管理</h3>
+                            
+                            <ul>
+                                <li><code>/群老婆图鉴</code> - 查看群里已经解锁的老婆</li>
+                                <li><code>/切换ntr状态</code> - 嗯…</li>
+                                <li><code>/牛老婆</code> - 嗯…</li>
+                                <li><code>/看今日老婆</code> - 加@可以查看别人老婆</li>
+                                <li><code>/强娶</code> - 强娶一个群友</li>
+                                <li><code>/今日老婆</code> - 抽一个群友当你的老婆</li>
+                            </ul>
+                            
+                            <h2 id="群友语录功能">📝 群友语录功能</h2>
+                            
+                            <h3 id="语录管理">语录管理</h3>
+                            
+                            <ul>
+                                <li><code>/语录投稿 图片</code> - bot会将群u语录保存到本地（不同群聊相互隔离）</li>
+                                <li><code>/投稿权限 模式数字</code> - 设置上传权限
+                                    <ul>
+                                        <li>0：关闭投稿系统</li>
+                                        <li>1：仅管理员可投稿</li>
+                                        <li>2：全体成员均可投稿</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            
+                            <blockquote>
+                                <p>如果你的qq未开启半屏相册发图功能，可以通过【qq左划→设置→通用→图片、视频→发图方式】进行修改</p>
+                            </blockquote>
+                            
+                            <h2 id="生成插件功能">🔧 生成插件功能</h2>
+                            
+                            <h3 id="插件生成">插件生成</h3>
+                            
+                            <ul>
+                                <li><code>/生成插件 &lt;插件功能描述&gt;</code> - 生成插件</li>
+                                <li><code>/插件生成状态</code> - 查看插件生成状态</li>
+                            </ul>
+                            
+                            <h2 id="赛博监工功能">👮 赛博监工功能</h2>
+                            
+                            <h3 id="监工介绍">监工介绍</h3>
+                            
+                            <blockquote>
+                                <p>赛博监工，检测到某人水群，就提醒他滚去干活</p>
+                            </blockquote>
+                            
+                            <h3 id="监工命令">监工命令</h3>
+                            
+                            <ul>
+                                <li><code>/监督@某人</code> - 将某人加进监督名单里</li>
+                                <li><code>/解除监督@某人</code> - 将某人移出监督名单里</li>
+                            </ul>
+                            
+                            <h2 id="群管功能">👑 群管功能</h2>
+                            
+                            <h3 id="成员管理">成员管理</h3>
+                            
+                            <ul>
+                                <li><code>/禁言 &lt;秒数&gt; @用户</code> - 对指定成员禁言</li>
+                                <li><code>/禁我 &lt;秒数&gt;</code> - 对自己禁言</li>
+                                <li><code>/解禁 @用户</code> - 解除指定成员的禁言</li>
+                                <li><code>/开启全禁 / 关闭全禁</code> - 控制全群是否可发言</li>
+                                <li><code>/改名 &lt;新昵称&gt; @用户 / 改我 &lt;新昵称&gt;</code> - 修改群名片</li>
+                                <li><code>/头衔 &lt;头衔&gt; @用户 / 申请头衔 &lt;头衔&gt;</code> - 设置群头衔（需群主权限）</li>
+                                <li><code>/踢了 @用户</code> - 将指定成员移出群聊</li>
+                                <li><code>/拉黑 @用户</code> - 踢出并拉黑指定成员</li>
+                                <li><code>/上管 @用户</code> - 设置管理员（需群主权限）</li>
+                                <li><code>/下管 @用户</code> - 取消管理员（需群主权限）</li>
+                            </ul>
+                            
+                            <h3 id="消息管理">消息管理</h3>
+                            
+                            <ul>
+                                <li><code>/撤回 (引用消息) / 撤回 @用户 数量</code> - 撤回消息，默认10条</li>
+                                <li><code>/设精 (引用消息) / 移精 (引用消息)</code> - 管理精华消息</li>
+                                <li><code>/查看精华</code> - 查看精华消息列表</li>
+                            </ul>
+                            
+                            <h3 id="群设置">群设置</h3>
+                            
+                            <ul>
+                                <li><code>/设置群头像 (引用图片)</code> - 修改群头像</li>
+                                <li><code>/设置群名 &lt;新群名&gt;</code> - 修改群名称</li>
+                                <li><code>/发布群公告 &lt;内容&gt; (可引用图片)</code> - 发布群公告</li>
+                                <li><code>/查看群公告</code> - 查看群公告</li>
+                            </ul>
+                            
+                            <h3 id="投票功能">投票功能</h3>
+                            
+                            <ul>
+                                <li><code>/投票禁言 &lt;秒数&gt; @用户</code> - 发起禁言投票</li>
+                                <li><code>/赞同禁言 / 反对禁言</code> - 投票同意或反对禁言</li>
+                            </ul>
+                            
+                            <h3 id="安全设置">安全设置</h3>
+                            
+                            <ul>
+                                <li><code>/设置禁词 &lt;词1 词2…&gt;</code> - 设置或查看自定义违禁词</li>
+                                <li><code>/内置禁词 开/关</code> - 开启或关闭内置违禁词检测</li>
+                                <li><code>/刷屏禁言 &lt;秒数&gt;</code> - 设置刷屏触发的禁言时长（0 关闭）</li>
+                                <li><code>/开启宵禁 HH:MM HH:MM</code> - 设置宵禁时间段</li>
+                                <li><code>/关闭宵禁</code> - 关闭宵禁任务</li>
+                            </ul>
+                            
+                            <h3 id="进群管理">进群管理</h3>
+                            
+                            <ul>
+                                <li><code>/进群审核 开/关</code> - 开启或关闭进群审核功能</li>
+                                <li><code>/进群白词 &lt;关键词…&gt;</code> - 设置自动批准进群的关键词</li>
+                                <li><code>/进群黑词 &lt;关键词…&gt;</code> - 设置自动拒绝进群的关键词</li>
+                                <li><code>/未命中驳回 开/关</code> - 设置是否拒绝未命中白词的进群申请</li>
+                                <li><code>/进群等级 &lt;等级&gt;</code> - 设置进群等级门槛</li>
+                                <li><code>/进群次数 &lt;次数&gt;</code> - 设置最大进群尝试次数</li>
+                                <li><code>/进群黑名单 +QQ号 / -QQ号</code> - 添加或移除进群黑名单</li>
+                                <li><code>/进群禁言 &lt;秒数&gt;</code> - 设置新进成员的禁言时长（0 表示不启用）</li>
+                                <li><code>/进群欢迎</code> - 开启/关闭进群欢迎消息</li>
+                                <li><code>/退群通知 开/关</code> - 开启或关闭退群通知</li>
+                                <li><code>/退群拉黑 开/关</code> - 开启或关闭退群后自动拉黑（拉黑后下次进群自动拒绝）</li>
+                                <li><code>/批准 / 驳回 &lt;理由&gt;</code> - 审批进群申请</li>
+                            </ul>
+                            
+                            <h3 id="群数据管理">群数据管理</h3>
+                            
+                            <ul>
+                                <li><code>/群友信息</code> - 查看群成员活跃情况</li>
+                                <li><code>/清理群友 &lt;未发言天数&gt; &lt;群等级&gt;</code> - 移除不活跃或低等级成员</li>
+                                <li><code>/上传群文件 &lt;文件夹名/文件名&gt;</code> - 引用文件并上传</li>
+                                <li><code>/删除群文件 &lt;文件夹名或序号&gt; &lt;文件名或序号&gt;</code> - 删除群文件或文件夹</li>
+                                <li><code>/查看群文件 &lt;文件夹名或序号&gt; &lt;文件名或序号&gt;</code> - 查看文件夹或文件详情</li>
+                                <li><code>/取名 @用户 &lt;抽取消息轮数&gt;</code> - 根据聊天记录取个群昵称</li>
+                                <li><code>/群管重置 &lt;群号/all&gt;</code> - 重置本群或全部群的群管配置</li>
+                            </ul>
+                            
+                            <h2 id="使用技巧">💡 使用技巧</h2>
+                            
+                            <ol>
+                                <li><strong>命令纠错</strong>：输入错误命令后，发送 <code>/fuck</code> 可获取正确命令建议</li>
+                                <li><strong>快速查找</strong>：使用本Markdown文档的搜索功能快速定位需要的命令</li>
+                                <li><strong>插件说明</strong>：输入 <code>/描述-xxx</code> 可查看对应插件的详细说明</li>
+                                <li><strong>书架管理</strong>：使用 <code>/书架</code> 系列命令管理您的小说收藏</li>
+                            </ol>
+                            
+                            <h2 id="更新日志">📄 更新日志</h2>
+                            
+                            <ul>
+                                <li><strong>2026-02-20 17:41:20</strong>：全面更新菜单内容，增加新功能和命令</li>
+                                <li><strong>2026-02-20</strong>：重构为Markdown格式，优化阅读体验</li>
+                                <li><strong>2026-02-20</strong>：添加详细的功能分类和使用说明</li>
+                            </ul>
+                            
+                            <hr>
+                            
+                            <p><em>本菜单由 XQEbot 团队维护，如有问题请联系管理员</em></p>
+                        </div>
+                    </div>
+                </main>
             </div>
         </div>
 
-        <!-- 无结果提示 -->
-        <div id="noResults" class="hidden text-center py-10 animate-fade-in">
-            <i class="fa fa-search text-4xl text-indigo-300 mb-4"></i>
-            <p class="text-xl text-indigo-200">没有找到匹配的功能</p>
-            <p class="text-indigo-300 mt-2">请尝试其他关键词</p>
-        </div>
-
-        <!-- 页脚 -->
-        <footer class="mt-16 text-center text-indigo-300 text-sm animate-fade-in">
-            <p>© 2026 XQEbot - 功能菜单</p>
-            <p class="mt-2">使用现代化界面设计，提供更好的用户体验</p>
+        <!-- 底部版权信息 -->
+        <footer class="glass-dark border-t border-white/10 py-6 mt-10">
+            <div class="container mx-auto px-4 text-center">
+                <p class="text-indigo-300 text-sm">XQEbot 功能菜单 | Markdown版本</p>
+                <p class="text-white/50 text-xs mt-2">支持 PillowMD 元素渲染</p>
+            </div>
         </footer>
-    </div>
 
-    <!-- JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 获取DOM元素
-            const searchInput = document.getElementById('searchInput');
-            const searchBtn = document.getElementById('searchBtn');
+        <!-- 复制成功提示 -->
+        <div id="copyToast" class="fixed top-4 right-4 glass-dark px-4 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+            <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-green-600/30 flex items-center justify-center mr-3">
+                    <i class="fa fa-check text-green-400"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium">复制成功</p>
+                    <p class="text-xs text-white/70" id="copyToastText">命令已复制到剪贴板</p>
+                </div>
+            </div>
+        </div>
 
-            const featureCards = document.querySelectorAll('.feature-card');
-            const noResults = document.getElementById('noResults');
-            const featureContainer = document.getElementById('featureContainer');
-
-            // 搜索功能
-            function searchFeatures() {
-                const searchTerm = searchInput.value.toLowerCase().trim();
-                let hasResults = false;
-
-                featureCards.forEach(card => {
-                    const cardText = card.textContent.toLowerCase();
-                    const isVisible = cardText.includes(searchTerm);
-                    
-                    card.style.display = isVisible ? 'block' : 'none';
-                    
-                    if (isVisible) {
-                        hasResults = true;
-                    }
+        <script>
+            // 等待DOM加载完成
+            document.addEventListener('DOMContentLoaded', function() {
+                // 获取DOM元素
+                const searchInput = document.getElementById('searchInput');
+                const searchBtn = document.getElementById('searchBtn');
+                const markdownContent = document.getElementById('markdownContent');
+                const copyToast = document.getElementById('copyToast');
+                const copyToastText = document.getElementById('copyToastText');
+                const mobileTocToggle = document.getElementById('mobileTocToggle');
+                const mobileToc = document.getElementById('mobileToc');
+                const tocToggleIcon = document.getElementById('tocToggleIcon');
+                const tocLinks = document.querySelectorAll('.toc-link');
+                
+                // 渲染LaTeX公式
+                renderMathInElement(markdownContent, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ]
                 });
-
-                // 显示或隐藏无结果提示
-                noResults.style.display = hasResults ? 'none' : 'block';
-            }
-
-            // 事件监听
-            searchBtn.addEventListener('click', searchFeatures);
-            searchInput.addEventListener('keyup', function(e) {
-                if (e.key === 'Enter') {
-                    searchFeatures();
-                }
-            });
-
-            // 复制命令功能
-            document.querySelectorAll('code').forEach(code => {
-                code.style.cursor = 'pointer';
-                code.addEventListener('click', function() {
-                    const textToCopy = this.textContent;
-                    navigator.clipboard.writeText(textToCopy).then(() => {
-                        // 创建临时提示元素
-                        const tooltip = document.createElement('div');
-                        tooltip.textContent = '已复制!';
-                        tooltip.className = 'absolute -top-8 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-2 py-1 rounded text-xs';
-                        
-                        // 确保父元素是相对定位的
-                        if (this.parentElement.style.position !== 'relative') {
-                            this.parentElement.style.position = 'relative';
+                
+                // 搜索功能
+                function performSearch() {
+                    const searchTerm = searchInput.value.toLowerCase().trim();
+                    
+                    if (searchTerm === '') {
+                        // 重置高亮
+                        resetHighlight();
+                        return;
+                    }
+                    
+                    // 重置之前的高亮
+                    resetHighlight();
+                    
+                    // 创建高亮样式
+                    const highlightStyle = document.createElement('style');
+                    highlightStyle.id = 'search-highlight';
+                    highlightStyle.textContent = `
+                        .search-highlight {
+                            background-color: rgba(255, 215, 0, 0.3);
+                            border-radius: 2px;
+                        }
+                    `;
+                    document.head.appendChild(highlightStyle);
+                    
+                    // 搜索并高亮文本
+                    const walker = document.createTreeWalker(
+                        markdownContent,
+                        NodeFilter.SHOW_TEXT,
+                        null,
+                        false
+                    );
+                    
+                    let node;
+                    let foundCount = 0;
+                    
+                    while (node = walker.nextNode()) {
+                        if (node.parentNode.tagName === 'CODE' || node.parentNode.tagName === 'PRE') {
+                            continue; // 跳过代码块
                         }
                         
-                        this.parentElement.appendChild(tooltip);
+                        const text = node.textContent;
+                        const regex = new RegExp(`(${searchTerm})`, 'gi');
                         
-                        // 2秒后移除提示
-                        setTimeout(() => {
-                            tooltip.remove();
-                        }, 2000);
-                    }).catch(err => {
-                        console.error('复制失败:', err);
+                        if (regex.test(text)) {
+                            foundCount++;
+                            
+                            // 创建新的文本节点，包含高亮
+                            const parent = node.parentNode;
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = text.replace(regex, '<span class="search-highlight">$1</span>');
+                            
+                            // 替换原始节点
+                            parent.replaceChild(tempDiv.firstChild, node);
+                            
+                            // 重新遍历子节点
+                            walker.currentNode = parent;
+                        }
+                    }
+                    
+                    // 如果找到结果，滚动到第一个匹配项
+                    if (foundCount > 0) {
+                        const firstHighlight = document.querySelector('.search-highlight');
+                        if (firstHighlight) {
+                            firstHighlight.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                        }
+                    }
+                }
+                
+                // 重置搜索高亮
+                function resetHighlight() {
+                    const highlightStyle = document.getElementById('search-highlight');
+                    if (highlightStyle) {
+                        highlightStyle.remove();
+                    }
+                    
+                    const highlights = document.querySelectorAll('.search-highlight');
+                    highlights.forEach(highlight => {
+                        const parent = highlight.parentNode;
+                        parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                        // 合并相邻的文本节点
+                        parent.normalize();
                     });
+                }
+                
+                // 复制命令到剪贴板
+                function enableCommandCopy() {
+                    const codeElements = markdownContent.querySelectorAll('code');
+                    
+                    codeElements.forEach(code => {
+                        if (code.textContent.startsWith('/')) {
+                            // 添加点击事件
+                            code.style.cursor = 'pointer';
+                            code.title = '点击复制命令';
+                            
+                            code.addEventListener('click', function() {
+                                const command = this.textContent;
+                                navigator.clipboard.writeText(command).then(() => {
+                                    // 显示复制成功提示
+                                    copyToastText.textContent = `已复制: ${command}`;
+                                    copyToast.classList.remove('translate-x-full');
+                                    
+                                    // 2秒后隐藏提示
+                                    setTimeout(() => {
+                                        copyToast.classList.add('translate-x-full');
+                                    }, 2000);
+                                }).catch(err => {
+                                    console.error('复制失败:', err);
+                                });
+                            });
+                        }
+                    });
+                }
+                
+                // 移动端目录切换
+                mobileTocToggle.addEventListener('click', function() {
+                    mobileToc.classList.toggle('hidden');
+                    tocToggleIcon.classList.toggle('rotate-180');
                 });
-            });
-
-            // 添加滚动动画
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                
+                // 同步滚动高亮当前目录项
+                function syncScrollWithToc() {
+                    const sections = markdownContent.querySelectorAll('h2, h3');
+                    let currentSection = null;
+                    
+                    sections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        if (rect.top <= 100) {
+                            currentSection = section;
+                        }
+                    });
+                    
+                    if (currentSection) {
+                        const id = currentSection.getAttribute('id');
+                        tocLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                }
+                
+                // 事件监听器
+                searchBtn.addEventListener('click', performSearch);
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
                     }
                 });
-            }, observerOptions);
-
-            featureCards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(card);
+                
+                // 滚动同步
+                window.addEventListener('scroll', syncScrollWithToc);
+                
+                // 初始化
+                enableCommandCopy();
+                syncScrollWithToc();
+                
+                // 生成移动端目录
+                const desktopToc = document.getElementById('tableOfContents');
+                const mobileTocContent = mobileToc.querySelector('nav');
+                mobileTocContent.innerHTML = desktopToc.innerHTML;
+                
+                // 移动端目录点击事件
+                mobileTocContent.querySelectorAll('.toc-link').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileToc.classList.add('hidden');
+                        tocToggleIcon.classList.remove('rotate-180');
+                    });
+                });
+                
+                // 键盘快捷键
+                document.addEventListener('keydown', function(e) {
+                    // Ctrl/Cmd + K 聚焦搜索框
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                        e.preventDefault();
+                        searchInput.focus();
+                    }
+                    
+                    // ESC 清空搜索
+                    if (e.key === 'Escape') {
+                        searchInput.value = '';
+                        resetHighlight();
+                        searchInput.blur();
+                    }
+                });
             });
-
-            // 初始化页面
-            featureCards.forEach(card => {
-                card.style.display = 'block';
-            });
-        });
-    </script>
-
-</body></html>
+        </script>
+    </body>
+</html>
